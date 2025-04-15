@@ -1,9 +1,8 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Search, ShoppingBag, X } from 'lucide-react';
 import { Button } from './ui/button';
-import { Dialog, DialogContent } from './ui/dialog';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from './ui/drawer';
 import { Input } from './ui/input';
 
 const Header = () => {
@@ -19,7 +18,7 @@ const Header = () => {
   };
 
   const handleAddToCart = () => {
-    // For demonstration purposes, we'll just toggle the cart dialog
+    // For demonstration purposes, we'll just toggle the cart drawer
     setIsCartOpen(true);
   };
 
@@ -85,7 +84,7 @@ const Header = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsSearchOpen(true)}
-                className="text-gold-primary hover:text-gold-primary/80"
+                className="relative text-gold-primary hover:text-gold-primary/80 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
               >
                 <Search className="h-5 w-5" />
               </Button>
@@ -93,7 +92,7 @@ const Header = () => {
                 variant="ghost"
                 size="icon"
                 onClick={handleAddToCart}
-                className="text-gold-primary hover:text-gold-primary/80"
+                className="relative text-gold-primary hover:text-gold-primary/80 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
               >
                 <ShoppingBag className="h-5 w-5" />
               </Button>
@@ -102,43 +101,68 @@ const Header = () => {
         </div>
       </div>
 
-      <Dialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <form onSubmit={handleSearch} className="flex gap-2">
-            <Input 
-              type="search" 
-              placeholder="Search perfumes..." 
-              className="border-gold-primary/20"
-            />
-            <Button type="submit" className="bg-gold-primary hover:bg-gold-primary/80">
-              Search
-            </Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gold-primary">Shopping Cart</h2>
-            {cartItems.length === 0 ? (
-              <p className="text-muted-foreground">Your cart is empty</p>
-            ) : (
-              <ul className="space-y-2">
-                {cartItems.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            )}
-            <Button 
-              className="w-full bg-gold-primary hover:bg-gold-primary/80"
-              onClick={() => setIsCartOpen(false)}
-            >
-              Close
-            </Button>
+      <Drawer open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-sm">
+            <DrawerHeader>
+              <DrawerTitle className="text-gold-primary">Search Perfumes</DrawerTitle>
+            </DrawerHeader>
+            <form onSubmit={handleSearch} className="px-4 pb-4">
+              <div className="flex gap-2">
+                <Input 
+                  type="search" 
+                  placeholder="Search perfumes..." 
+                  className="border-gold-primary/20"
+                />
+                <Button type="submit" className="bg-gold-primary hover:bg-gold-primary/80">
+                  <Search className="h-4 w-4" />
+                </Button>
+              </div>
+            </form>
           </div>
-        </DialogContent>
-      </Dialog>
+        </DrawerContent>
+      </Drawer>
+
+      <Drawer open={isCartOpen} onOpenChange={setIsCartOpen}>
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-sm">
+            <DrawerHeader>
+              <DrawerTitle className="text-gold-primary">Shopping Cart</DrawerTitle>
+            </DrawerHeader>
+            <div className="px-4 pb-4 space-y-4">
+              {cartItems.length === 0 ? (
+                <p className="text-muted-foreground text-center">Your cart is empty</p>
+              ) : (
+                <ul className="space-y-2">
+                  {cartItems.map((item, index) => (
+                    <li key={index} className="flex justify-between items-center p-2 border border-gold-primary/20 rounded">
+                      <span>{item}</span>
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        className="text-gold-primary hover:text-gold-primary/80"
+                        onClick={() => {
+                          const newCartItems = [...cartItems];
+                          newCartItems.splice(index, 1);
+                          setCartItems(newCartItems);
+                        }}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <Button 
+                className="w-full bg-gold-primary hover:bg-gold-primary/80"
+                onClick={() => setIsCartOpen(false)}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </DrawerContent>
+      </Drawer>
     </header>
   );
 };
