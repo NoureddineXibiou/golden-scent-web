@@ -9,6 +9,9 @@ import NewArrivals from "./pages/NewArrivals";
 import Collections from "./pages/Collections";
 import ForHer from "./pages/ForHer";
 import ForHim from "./pages/ForHim";
+import ParfumFemme from "./pages/ParfumFemme";
+import ParfumHomme from "./pages/ParfumHomme";
+import CoffretPack from "./pages/CoffretPack";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +28,9 @@ const App = () => (
           <Route path="/collections" element={<Collections />} />
           <Route path="/for-her" element={<ForHer />} />
           <Route path="/for-him" element={<ForHim />} />
+          <Route path="/parfum-femme" element={<ParfumFemme />} />
+          <Route path="/parfum-homme" element={<ParfumHomme />} />
+          <Route path="/coffret-pack" element={<CoffretPack />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
