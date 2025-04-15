@@ -3,9 +3,25 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Search, ShoppingBag, X } from 'lucide-react';
 import { Button } from './ui/button';
+import { Dialog, DialogContent } from './ui/dialog';
+import { Input } from './ui/input';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<string[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add search logic here
+    setIsSearchOpen(false);
+  };
+
+  const handleAddToCart = () => {
+    // For demonstration purposes, we'll just toggle the cart dialog
+    setIsCartOpen(true);
+  };
 
   return (
     <header className="fixed w-full top-0 z-50 bg-background/80 backdrop-blur-md border-b border-gold-primary/20">
@@ -59,28 +75,70 @@ const Header = () => {
             </ul>
           </nav>
           
-          <Link to="/" className="text-2xl font-playfair font-semibold gold-glow hover:text-gold-primary/80 transition-all relative after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">
-            ESSENCE
-          </Link>
-          
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gold-primary hover:text-gold-primary/80"
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gold-primary hover:text-gold-primary/80"
-            >
-              <ShoppingBag className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center gap-8">
+            <Link to="/" className="text-2xl font-playfair font-semibold gold-glow hover:text-gold-primary/80 transition-all">
+              ESSENCE
+            </Link>
+            
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSearchOpen(true)}
+                className="text-gold-primary hover:text-gold-primary/80"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleAddToCart}
+                className="text-gold-primary hover:text-gold-primary/80"
+              >
+                <ShoppingBag className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
+
+      <Dialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <form onSubmit={handleSearch} className="flex gap-2">
+            <Input 
+              type="search" 
+              placeholder="Search perfumes..." 
+              className="border-gold-primary/20"
+            />
+            <Button type="submit" className="bg-gold-primary hover:bg-gold-primary/80">
+              Search
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gold-primary">Shopping Cart</h2>
+            {cartItems.length === 0 ? (
+              <p className="text-muted-foreground">Your cart is empty</p>
+            ) : (
+              <ul className="space-y-2">
+                {cartItems.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            )}
+            <Button 
+              className="w-full bg-gold-primary hover:bg-gold-primary/80"
+              onClick={() => setIsCartOpen(false)}
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };
