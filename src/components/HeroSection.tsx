@@ -1,7 +1,10 @@
 
 import { Button } from './ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
@@ -20,12 +23,16 @@ const HeroSection = () => {
         <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
           Explore our curated collection of luxury fragrances that tell your unique story
         </p>
-        <Button
-          className="bg-gold-primary text-black hover:bg-gold-primary/90 animate-fade-in-up animate-delay-200"
-          size="lg"
-        >
-          Shop Now
-        </Button>
+        <div className="relative group">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-gold-primary/50 to-gold-secondary/50 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+          <Button
+            onClick={() => navigate('/parfum-femme')}
+            className="relative bg-gold-primary text-black hover:bg-gold-primary/90 animate-fade-in-up animate-delay-200"
+            size="lg"
+          >
+            Shop Now
+          </Button>
+        </div>
       </div>
     </div>
   );
