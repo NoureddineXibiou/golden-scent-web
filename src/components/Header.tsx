@@ -4,22 +4,16 @@ import { Menu, Search, ShoppingBag, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from './ui/drawer';
 import { Input } from './ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<string[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<string[]>([]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // Add search logic here
-    setIsSearchOpen(false);
-  };
-
-  const handleAddToCart = () => {
-    // For demonstration purposes, we'll just toggle the cart drawer
-    setIsCartOpen(true);
   };
 
   return (
@@ -75,53 +69,50 @@ const Header = () => {
           </nav>
           
           <div className="flex items-center gap-8">
-            <Link to="/" className="text-2xl font-playfair font-semibold gold-glow hover:text-gold-primary/80 transition-all">
-              ESSENCE
-            </Link>
-            
             <div className="flex items-center space-x-4">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative text-gold-primary hover:text-gold-primary/80 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                  >
+                    <Search className="h-5 w-5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 p-0" align="end">
+                  <div className="p-4 space-y-4">
+                    <h2 className="text-lg font-playfair text-gold-primary text-center">Search Perfumes</h2>
+                    <form onSubmit={handleSearch} className="flex gap-2">
+                      <Input 
+                        type="search" 
+                        placeholder="Search perfumes..." 
+                        className="border-gold-primary/20 bg-background"
+                      />
+                      <Button type="submit" className="bg-gold-primary hover:bg-gold-primary/80">
+                        <Search className="h-4 w-4" />
+                      </Button>
+                    </form>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsSearchOpen(true)}
-                className="relative text-gold-primary hover:text-gold-primary/80 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleAddToCart}
+                onClick={() => setIsCartOpen(true)}
                 className="relative text-gold-primary hover:text-gold-primary/80 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
               >
                 <ShoppingBag className="h-5 w-5" />
               </Button>
             </div>
+
+            <Link to="/" className="text-2xl font-playfair font-semibold gold-glow hover:text-gold-primary/80 transition-all">
+              ESSENCE
+            </Link>
           </div>
         </div>
       </div>
-
-      <Drawer open={isSearchOpen} onOpenChange={setIsSearchOpen}>
-        <DrawerContent>
-          <div className="mx-auto w-full max-w-sm">
-            <DrawerHeader>
-              <DrawerTitle className="text-gold-primary">Search Perfumes</DrawerTitle>
-            </DrawerHeader>
-            <form onSubmit={handleSearch} className="px-4 pb-4">
-              <div className="flex gap-2">
-                <Input 
-                  type="search" 
-                  placeholder="Search perfumes..." 
-                  className="border-gold-primary/20"
-                />
-                <Button type="submit" className="bg-gold-primary hover:bg-gold-primary/80">
-                  <Search className="h-4 w-4" />
-                </Button>
-              </div>
-            </form>
-          </div>
-        </DrawerContent>
-      </Drawer>
 
       <Drawer open={isCartOpen} onOpenChange={setIsCartOpen}>
         <DrawerContent>
