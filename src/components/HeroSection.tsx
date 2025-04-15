@@ -1,4 +1,3 @@
-
 import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,11 +22,12 @@ const HeroSection = () => {
         <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
           Explore our curated collection of luxury fragrances that tell your unique story
         </p>
-        <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-gold-primary/50 to-gold-secondary/50 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+        <div className="relative group inline-block">
+          <div className="absolute -inset-1 bg-gradient-to-r from-[#D4AF37] to-[#FFD700] rounded-lg opacity-75 blur-sm group-hover:opacity-100 group-hover:blur transition duration-500"></div>
+          <div className="absolute -inset-1 bg-gradient-to-r from-[#FFD700] to-[#D4AF37] rounded-lg opacity-50 group-hover:opacity-75 transition duration-500"></div>
           <Button
             onClick={() => navigate('/parfum-femme')}
-            className="relative bg-gold-primary text-black hover:bg-gold-primary/90 animate-fade-in-up animate-delay-200"
+            className="relative bg-gold-primary text-black hover:bg-gold-primary/90 animate-fade-in-up animate-delay-200 px-8 py-3"
             size="lg"
           >
             Shop Now
