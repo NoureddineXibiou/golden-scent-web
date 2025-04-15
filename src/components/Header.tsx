@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, Search, ShoppingBag, X } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -21,31 +22,31 @@ const Header = () => {
             </Button>
           </div>
           
-          <h1 className="text-2xl font-playfair font-semibold gold-glow">
+          <Link to="/" className="text-2xl font-playfair font-semibold gold-glow">
             ESSENCE
-          </h1>
+          </Link>
           
           <nav className={`${isMenuOpen ? 'absolute top-16 left-0 w-full bg-background border-b border-gold-primary/20 py-4' : 'hidden'} lg:block`}>
             <ul className={`${isMenuOpen ? 'flex flex-col space-y-4 px-4' : 'flex space-x-8'}`}>
               <li>
-                <a href="#" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
+                <Link to="/new-arrivals" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
                   New Arrivals
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
+                <Link to="/collections" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
                   Collections
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
+                <Link to="/for-her" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
                   For Her
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
+                <Link to="/for-him" className="text-gold-primary hover:text-gold-primary/80 transition-colors">
                   For Him
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
