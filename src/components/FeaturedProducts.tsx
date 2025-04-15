@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardFooter } from './ui/card';
 import { Button } from './ui/button';
 import { motion } from 'framer-motion';
@@ -93,6 +92,12 @@ const products = [
     name: 'Black Diamond',
     price: '$449',
     image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80'
+  },
+  {
+    id: 16,
+    name: 'Royal Saffron',
+    price: '$469',
+    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80'
   }
 ];
 
@@ -114,7 +119,14 @@ const FeaturedProducts = () => {
               }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-gold-primary/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-gold-primary/10 to-gold-secondary/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm"
+                initial={{ opacity: 0 }}
+                whileHover={{ 
+                  opacity: 1,
+                  background: "radial-gradient(circle at center, rgba(212, 175, 55, 0.3), rgba(0, 0, 0, 0.5))"
+                }}
+              />
               <Card className="bg-card border-gold-primary/20 relative z-10">
                 <CardContent className="p-0">
                   <img
