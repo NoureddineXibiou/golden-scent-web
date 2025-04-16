@@ -5,27 +5,27 @@ import { motion } from 'framer-motion';
 const products = [
   {
     id: 1,
-    name: 'Midnight Orchid',
-    price: '$299',
-    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80'
+    name: 'Black Orchid',
+    price: '$399',
+    image: '/lovable-uploads/fc561211-a498-4f8b-8ee6-ea2073aaffa4.png'
   },
   {
     id: 2,
-    name: 'Golden Amber',
-    price: '$259',
-    image: 'https://images.unsplash.com/photo-1587017539504-67cfbddac569?auto=format&fit=crop&q=80'
+    name: 'Velvet Amber Skin',
+    price: '$359',
+    image: '/lovable-uploads/653ffe56-7c20-44e5-a189-06d4be4d23a8.png'
   },
   {
     id: 3,
     name: 'Royal Oud',
-    price: '$329',
-    image: 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80'
+    price: '$429',
+    image: '/lovable-uploads/7069f6d1-d037-43fb-b074-2e29a4fa0e04.png'
   },
   {
     id: 4,
-    name: 'Velvet Rose',
-    price: '$279',
-    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80'
+    name: 'Dark Water & Vanilla',
+    price: '$379',
+    image: '/lovable-uploads/1d96f83e-d5cf-4875-b289-baf301a1dab0.png'
   },
   {
     id: 5,
