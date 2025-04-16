@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardFooter } from './ui/card';
 import { Button } from './ui/button';
 import { motion } from 'framer-motion';
@@ -7,27 +6,27 @@ import { AspectRatio } from './ui/aspect-ratio';
 const products = [
   {
     id: 1,
-    name: 'Black Orchid',
+    name: 'Tom Ford Black Orchid',
     price: '$399',
-    image: '/lovable-uploads/fc561211-a498-4f8b-8ee6-ea2073aaffa4.png'
+    image: '/lovable-uploads/371be745-a640-42c7-a83e-039284a6b504.png'
   },
   {
     id: 2,
-    name: 'Velvet Amber Skin',
+    name: 'Dolce & Gabbana Velvet Amber Skin',
     price: '$359',
-    image: '/lovable-uploads/653ffe56-7c20-44e5-a189-06d4be4d23a8.png'
+    image: '/lovable-uploads/1a902dbd-e69b-4ba3-8d0a-79ab669c4a18.png'
   },
   {
     id: 3,
-    name: 'Royal Oud',
+    name: 'Creed Royal Oud',
     price: '$429',
-    image: '/lovable-uploads/7069f6d1-d037-43fb-b074-2e29a4fa0e04.png'
+    image: '/lovable-uploads/6c6332d9-e9ad-4688-8d3f-703e8ced52ee.png'
   },
   {
     id: 4,
-    name: 'Dark Water & Vanilla',
+    name: 'Jo Malone Dark Water & Vanilla',
     price: '$379',
-    image: '/lovable-uploads/1d96f83e-d5cf-4875-b289-baf301a1dab0.png'
+    image: '/lovable-uploads/ed3b26c5-a5f7-4446-9cb0-e383520c4888.png'
   },
   {
     id: 5,
