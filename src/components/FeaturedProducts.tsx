@@ -1,6 +1,8 @@
+
 import { Card, CardContent, CardFooter } from './ui/card';
 import { Button } from './ui/button';
 import { motion } from 'framer-motion';
+import { AspectRatio } from './ui/aspect-ratio';
 
 const products = [
   {
@@ -127,13 +129,19 @@ const FeaturedProducts = () => {
                   background: "radial-gradient(circle at center, rgba(212, 175, 55, 0.3), rgba(0, 0, 0, 0.5))"
                 }}
               />
-              <Card className="bg-card border-gold-primary/20 relative z-10">
+              <Card className="bg-card border-gold-primary/20 relative z-10 h-full">
                 <CardContent className="p-0">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-[300px] object-cover rounded-t-lg"
-                  />
+                  <AspectRatio ratio={3/4} className="bg-black/20">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover rounded-t-lg"
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${product.image}`);
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80';
+                      }}
+                    />
+                  </AspectRatio>
                 </CardContent>
                 <CardFooter className="flex flex-col items-center space-y-4 p-6">
                   <h3 className="text-xl font-playfair text-gold-primary">{product.name}</h3>
