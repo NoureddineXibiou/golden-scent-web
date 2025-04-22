@@ -1,11 +1,15 @@
+
 import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
+import HeroStars from './HeroStars';
 
 const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Stars animation layer */}
+      <HeroStars />
       <div className="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80"
@@ -39,3 +43,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
