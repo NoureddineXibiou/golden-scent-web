@@ -14,14 +14,15 @@ type Perfume = {
   id: number;
   name: string;
   price: string;
+  image: string; // NEW: image URL
 };
 
 const ALL_PERFUMES: Perfume[] = [
-  { id: 1, name: 'Amber Queen', price: '€68' },
-  { id: 2, name: 'Mystic Oud', price: '€75' },
-  { id: 3, name: 'Vanilla Luxe', price: '€70' },
-  { id: 4, name: 'Fleur de Coton', price: '€64' },
-  { id: 5, name: 'Rose Élégance', price: '€72' }
+  { id: 1, name: 'Amber Queen', price: '€68', image: '/lovable-uploads/8c10ed65-05e0-474a-bbd9-7a3d3a20fc0a.png' },
+  { id: 2, name: 'Mystic Oud', price: '€75', image: '/lovable-uploads/8c10ed65-05e0-474a-bbd9-7a3d3a20fc0a.png' },
+  { id: 3, name: 'Vanilla Luxe', price: '€70', image: '/lovable-uploads/8c10ed65-05e0-474a-bbd9-7a3d3a20fc0a.png' },
+  { id: 4, name: 'Fleur de Coton', price: '€64', image: '/lovable-uploads/8c10ed65-05e0-474a-bbd9-7a3d3a20fc0a.png' },
+  { id: 5, name: 'Rose Élégance', price: '€72', image: '/lovable-uploads/8c10ed65-05e0-474a-bbd9-7a3d3a20fc0a.png' }
   // Add more perfumes here if needed
 ];
 
@@ -189,7 +190,7 @@ const Header = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
-                        className="mt-4 p-4 rounded-lg bg-background border border-gold-primary/30 shadow-xl relative"
+                        className="mt-4 p-4 rounded-lg bg-background border border-gold-primary/30 shadow-xl relative flex flex-col items-center"
                       >
                         <button
                           className="absolute top-2 right-2 rounded-full p-1 hover:bg-gold-primary/20 transition-all"
@@ -198,7 +199,13 @@ const Header = () => {
                         >
                           <X className="h-4 w-4 text-gold-primary" />
                         </button>
-                        <h3 className="text-xl font-playfair font-bold text-gold-primary mb-2">{selectedPerfume.name}</h3>
+                        <img
+                          src={selectedPerfume.image}
+                          alt={selectedPerfume.name}
+                          className="w-32 h-32 object-contain rounded-md mb-4 border border-gold-primary/20 shadow"
+                          style={{ background: "#fff" }}
+                        />
+                        <h3 className="text-xl font-playfair font-bold text-gold-primary mb-2 text-center">{selectedPerfume.name}</h3>
                         <p className="text-base text-gold-primary mb-6">{selectedPerfume.price}</p>
                         <Button
                           className="w-full bg-gold-primary text-black hover:bg-gold-primary/90"
