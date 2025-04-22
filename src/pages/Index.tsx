@@ -1,4 +1,5 @@
 
+import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import FeaturedProducts from '@/components/FeaturedProducts';
@@ -8,10 +9,14 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main>
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <HeroSection />
         <FeaturedProducts />
-      </main>
+      </motion.main>
       <Footer />
     </div>
   );

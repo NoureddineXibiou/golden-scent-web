@@ -1,28 +1,48 @@
 
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Search, ShoppingBag, X } from 'lucide-react';
+import { Menu, ShoppingBag, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from './ui/drawer';
-import { Input } from './ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { useCart } from '@/contexts/CartContext';
+import PerfumeSearchBar from './PerfumeSearchBar';
+
+// Sample perfumes for the search feature
+const headerPerfumes = [
+  { id: 1, name: "Midnight Orchid", price: 199.99, image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80" },
+  { id: 2, name: "Golden Aura", price: 229.99, image: "https://images.unsplash.com/photo-1587017539504-67cfbddac569?auto=format&fit=crop&q=80" },
+  { id: 3, name: "Royal Amber", price: 189.99, image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80" },
+  { id: 4, name: "Velvet Rose", price: 249.99, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80" },
+  { id: 5, name: "Black Orchid", price: 279.99, image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80" },
+  { id: 6, name: "Mystic Oud", price: 299.99, image: "https://images.unsplash.com/photo-1587017539504-67cfbddac569?auto=format&fit=crop&q=80" },
+  { id: 7, name: "Divine Jasmine", price: 219.99, image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80" },
+  { id: 8, name: "Amber Dreams", price: 239.99, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80" },
+  { id: 9, name: "Gold Elixir", price: 259.99, image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80" },
+  { id: 10, name: "Royal Musk", price: 269.99, image: "https://images.unsplash.com/photo-1587017539504-67cfbddac569?auto=format&fit=crop&q=80" },
+  { id: 11, name: "Silk Rose", price: 229.99, image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80" },
+  { id: 12, name: "Night Jasmine", price: 249.99, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80" },
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState(headerPerfumes);
+  const [searchHighlighter, setSearchHighlighter] = useState<(name: string) => React.ReactNode>(() => (n) => n);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  
   const navigate = useNavigate();
   const { items, removeItem, itemCount } = useCart();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Add search logic here
-  };
 
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
     navigate('/');
     setIsMenuOpen(false);
+  };
+  
+  const handleSearchResults = (results: typeof headerPerfumes, highlighter: (n: string) => React.ReactNode) => {
+    setSearchResults(results);
+    setSearchHighlighter(() => highlighter);
+    setShowSearchResults(true);
   };
 
   return (
@@ -80,32 +100,43 @@ const Header = () => {
           
           <div className="flex items-center gap-8">
             <div className="flex items-center space-x-4">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="relative text-gold-primary hover:text-gold-primary/80 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
-                  >
-                    <Search className="h-5 w-5" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 p-0" align="end">
-                  <div className="p-4 space-y-4">
-                    <h2 className="text-lg font-playfair text-gold-primary text-center">Search Perfumes</h2>
-                    <form onSubmit={handleSearch} className="flex gap-2">
-                      <Input 
-                        type="search" 
-                        placeholder="Search perfumes..." 
-                        className="border-gold-primary/20 bg-background"
-                      />
-                      <Button type="submit" className="bg-gold-primary hover:bg-gold-primary/80">
-                        <Search className="h-4 w-4" />
-                      </Button>
-                    </form>
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <div className="relative">
+                <PerfumeSearchBar 
+                  perfumes={headerPerfumes}
+                  onFiltered={handleSearchResults}
+                />
+                
+                {/* Search Results Dropdown */}
+                <AnimatePresence>
+                  {showSearchResults && searchResults.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 top-full mt-2 w-80 max-h-96 overflow-y-auto bg-background border border-gold-primary/20 shadow-2xl rounded-lg z-40"
+                    >
+                      <div className="p-4">
+                        <h3 className="text-gold-primary font-playfair mb-3">Perfumes</h3>
+                        <ul className="space-y-2">
+                          {searchResults.map((perfume) => (
+                            <li key={perfume.id} className="p-2 hover:bg-gold-primary/5 rounded transition-colors">
+                              <Link to={`/perfume/${perfume.id}`} className="flex items-center gap-3" onClick={() => setShowSearchResults(false)}>
+                                <div className="w-12 h-12 bg-muted rounded overflow-hidden">
+                                  <img src={perfume.image} alt={perfume.name} className="w-full h-full object-cover" />
+                                </div>
+                                <div>
+                                  <div className="text-sm font-medium">{searchHighlighter(perfume.name)}</div>
+                                  <div className="text-xs text-gold-primary">${perfume.price}</div>
+                                </div>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               
               <Button
                 variant="ghost"
