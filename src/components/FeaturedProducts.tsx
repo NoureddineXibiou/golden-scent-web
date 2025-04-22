@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter } from './ui/card';
 import { Button } from './ui/button';
 import { motion } from 'framer-motion';
 import { AspectRatio } from './ui/aspect-ratio';
+import { useCart } from '@/contexts/CartContext';
 
 const products = [
   {
@@ -104,6 +105,8 @@ const products = [
 ];
 
 const FeaturedProducts = () => {
+  const { addItem } = useCart();
+
   return (
     <section className="py-20 px-4">
       <div className="container mx-auto">
@@ -148,6 +151,7 @@ const FeaturedProducts = () => {
                   <p className="text-gold-primary font-semibold">{product.price}</p>
                   <Button
                     className="w-full bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow"
+                    onClick={() => addItem({ id: product.id, name: product.name, price: product.price })}
                   >
                     Add to Cart
                   </Button>

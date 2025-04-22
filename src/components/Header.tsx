@@ -6,12 +6,13 @@ import { Button } from './ui/button';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from './ui/drawer';
 import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { useCart } from '@/contexts/CartContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<string[]>([]);
   const navigate = useNavigate();
+  const { items, removeItem, itemCount } = useCart();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,6 +114,11 @@ const Header = () => {
                 className="relative text-gold-primary hover:text-gold-primary/80 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-gold-primary/50 after:left-0 after:bottom-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
               >
                 <ShoppingBag className="h-5 w-5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center text-xs bg-gold-primary text-black font-bold rounded-full w-5 h-5 shadow">
+                    {itemCount}
+                  </span>
+                )}
               </Button>
             </div>
 
@@ -130,22 +136,18 @@ const Header = () => {
               <DrawerTitle className="text-gold-primary">Shopping Cart</DrawerTitle>
             </DrawerHeader>
             <div className="px-4 pb-4 space-y-4">
-              {cartItems.length === 0 ? (
+              {itemCount === 0 ? (
                 <p className="text-muted-foreground text-center">Your cart is empty</p>
               ) : (
                 <ul className="space-y-2">
-                  {cartItems.map((item, index) => (
+                  {items.map((item, index) => (
                     <li key={index} className="flex justify-between items-center p-2 border border-gold-primary/20 rounded">
-                      <span>{item}</span>
+                      <span>{item.name} <span className="text-gold-primary ml-2">{item.price}</span></span>
                       <Button 
                         variant="ghost" 
                         size="icon"
                         className="text-gold-primary hover:text-gold-primary/80"
-                        onClick={() => {
-                          const newCartItems = [...cartItems];
-                          newCartItems.splice(index, 1);
-                          setCartItems(newCartItems);
-                        }}
+                        onClick={() => removeItem(index)}
                       >
                         <X className="h-4 w-4" />
                       </Button>
