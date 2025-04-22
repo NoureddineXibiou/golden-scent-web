@@ -9,6 +9,7 @@ import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { useCart } from '@/contexts/CartContext';
 
+// Perfume card type and products
 type Perfume = {
   id: number;
   name: string;
@@ -29,8 +30,10 @@ const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
+  const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
+
   const navigate = useNavigate();
-  const { items, removeItem, itemCount } = useCart();
+  const { items, removeItem, itemCount, addItem } = useCart();
 
   // Filtering perfumes based on query
   const matchingPerfumes = searchQuery.trim().length > 0
@@ -40,13 +43,21 @@ const Header = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add search logic here
+    // No-op, display is reactive to query
   };
 
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
     navigate('/');
     setIsMenuOpen(false);
+  };
+
+  // Add-to-cart for detail card
+  const handleAddSelectedToCart = () => {
+    if (selectedPerfume) {
+      addItem({ ...selectedPerfume });
+      setIsCartOpen(true); // Optionally open cart after add
+    }
   };
 
   return (
@@ -129,7 +140,10 @@ const Header = () => {
                         placeholder="Search perfumes..."
                         className="border-gold-primary/20 bg-background text-gold-primary placeholder:text-gold-primary/60"
                         value={searchQuery}
-                        onChange={e => setSearchQuery(e.target.value)}
+                        onChange={e => {
+                          setSearchQuery(e.target.value);
+                          setSelectedPerfume(null);
+                        }}
                         onFocus={() => setSearchFocused(true)}
                         onBlur={() => setSearchFocused(false)}
                       />
@@ -143,7 +157,7 @@ const Header = () => {
                     </form>
                     {/* Show results below the input */}
                     <AnimatePresence>
-                      {searchQuery && (
+                      {searchQuery && !selectedPerfume && (
                         <motion.ul
                           initial={{ opacity: 0, y: -8 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -155,6 +169,7 @@ const Header = () => {
                               <li
                                 key={perfume.id}
                                 className="flex items-center justify-between px-4 py-2 hover:bg-gold-primary/10 cursor-pointer transition-all"
+                                onClick={() => setSelectedPerfume(perfume)}
                               >
                                 <span className="font-medium text-gold-primary">{perfume.name}</span>
                                 <span className="text-sm text-muted-foreground">{perfume.price}</span>
@@ -168,6 +183,31 @@ const Header = () => {
                         </motion.ul>
                       )}
                     </AnimatePresence>
+                    {/* Perfume details card */}
+                    {selectedPerfume && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="mt-4 p-4 rounded-lg bg-background border border-gold-primary/30 shadow-xl relative"
+                      >
+                        <button
+                          className="absolute top-2 right-2 rounded-full p-1 hover:bg-gold-primary/20 transition-all"
+                          onClick={() => setSelectedPerfume(null)}
+                          aria-label="Close"
+                        >
+                          <X className="h-4 w-4 text-gold-primary" />
+                        </button>
+                        <h3 className="text-xl font-playfair font-bold text-gold-primary mb-2">{selectedPerfume.name}</h3>
+                        <p className="text-base text-gold-primary mb-6">{selectedPerfume.price}</p>
+                        <Button
+                          className="w-full bg-gold-primary text-black hover:bg-gold-primary/90"
+                          onClick={handleAddSelectedToCart}
+                        >
+                          Add to Cart
+                        </Button>
+                      </motion.div>
+                    )}
                   </div>
                 </PopoverContent>
               </Popover>
