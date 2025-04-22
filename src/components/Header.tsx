@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, ShoppingBag, X } from 'lucide-react';
@@ -6,6 +5,7 @@ import { Button } from './ui/button';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from './ui/drawer';
 import { useCart } from '@/contexts/CartContext';
 import PerfumeSearchBar from './PerfumeSearchBar';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Sample perfumes for the search feature
 const headerPerfumes = [
