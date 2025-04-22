@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,19 +13,19 @@ function useDebouncedValue<T>(value: T, delay: number): T {
   return debounced;
 }
 
-export type Perfume = {
+type Perfume = {
   id: number;
   name: string;
   price: number;
   image: string;
 };
 
-export type PerfumeSearchBarProps = {
+type Props = {
   perfumes: Perfume[];
-  onFiltered?: (results: Perfume[], matchHighlighter: (n: string) => React.ReactNode) => void;
+  onFiltered: (results: Perfume[], matchHighlighter: (n: string) => React.ReactNode) => void;
 };
 
-const PerfumeSearchBar: React.FC<PerfumeSearchBarProps> = ({ perfumes, onFiltered }) => {
+const PerfumeSearchBar: React.FC<Props> = ({ perfumes, onFiltered }) => {
   const [active, setActive] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,9 +59,7 @@ const PerfumeSearchBar: React.FC<PerfumeSearchBarProps> = ({ perfumes, onFiltere
 
   // Callback up so the parent can update visible perfumes
   useEffect(() => {
-    if (onFiltered) {
-      onFiltered(matches, highlighter);
-    }
+    onFiltered(matches, highlighter);
   }, [matches, onFiltered, highlighter]);
 
   // Focus input on open
