@@ -46,7 +46,7 @@ const CoffretPack = () => {
                   <h3 className="text-xl font-playfair text-gold-primary text-center">{pack.name}</h3>
                   <p className="text-gold-primary font-semibold">{pack.price}</p>
                   <Button
-                    className="w-full bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow"
+                    className="w-full h-10 bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow font-medium tracking-wide uppercase"
                     onClick={() => addItem({ id: pack.id, name: pack.name, price: pack.price })}
                   >
                     Add to Cart

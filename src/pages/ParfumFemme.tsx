@@ -46,7 +46,7 @@ const ParfumFemme = () => {
                   <h3 className="text-xl font-playfair text-gold-primary text-center">{perfume.name}</h3>
                   <p className="text-gold-primary font-semibold">{perfume.price}</p>
                   <Button
-                    className="w-full bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow"
+                    className="w-full h-10 bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow font-medium tracking-wide uppercase"
                     onClick={() => addItem({ id: perfume.id, name: perfume.name, price: perfume.price })}
                   >
                     Add to Cart
