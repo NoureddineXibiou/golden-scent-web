@@ -146,11 +146,11 @@ const FeaturedProducts = () => {
                     />
                   </AspectRatio>
                 </CardContent>
-                <CardFooter className="flex flex-col items-center space-y-4 p-6">
-                  <h3 className="text-xl font-playfair text-gold-primary">{product.name}</h3>
-                  <p className="text-gold-primary font-semibold">{product.price}</p>
+                <CardFooter className="flex flex-col items-center space-y-2 p-6">
+                  <h3 className="text-xl font-playfair text-gold-primary text-center">{product.name}</h3>
+                  <p className="text-gold-primary font-semibold mb-4">{product.price}</p>
                   <Button
-                    className="w-full h-10 bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow font-medium tracking-wide uppercase"
+                    className="w-full py-2 px-4 bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow font-medium tracking-wide uppercase truncate"
                     onClick={() => addItem({ id: product.id, name: product.name, price: product.price })}
                   >
                     Add to Cart
