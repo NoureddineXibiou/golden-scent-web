@@ -1,9 +1,13 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { useCart } from "@/contexts/CartContext";
 
 const ParfumFemme = () => {
+  const { addItem } = useCart();
   const perfumes = [
     { id: 1, name: "Rose Garden", price: "299€", image: "/placeholder.svg" },
     { id: 2, name: "Midnight Jasmine", price: "349€", image: "/placeholder.svg" },
@@ -19,14 +23,37 @@ const ParfumFemme = () => {
         <h1 className="text-4xl font-playfair text-gold-primary mb-12">Parfum Femme</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {perfumes.map((perfume) => (
-            <Card key={perfume.id} className="group relative overflow-hidden border border-gold-primary/20 bg-background">
-              <div className="absolute inset-0 bg-gradient-to-r from-gold-primary/0 to-gold-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="p-6">
-                <img src={perfume.image} alt={perfume.name} className="w-full h-64 object-cover mb-4" />
-                <h3 className="text-xl font-playfair text-gold-primary mb-2">{perfume.name}</h3>
-                <p className="text-gold-primary/80">{perfume.price}</p>
-              </div>
-            </Card>
+            <motion.div
+              key={perfume.id}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+              className="relative group"
+            >
+              <Card className="group relative overflow-hidden border border-gold-primary/20 bg-background h-full flex flex-col">
+                <CardContent className="p-0">
+                  <div className="aspect-[3/4] bg-black/20 flex items-center justify-center">
+                    <img
+                      src={perfume.image}
+                      alt={perfume.name}
+                      className="w-full h-64 object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80";
+                      }}
+                    />
+                  </div>
+                </CardContent>
+                <CardFooter className="flex flex-col items-center space-y-4 p-6 mt-auto">
+                  <h3 className="text-xl font-playfair text-gold-primary text-center">{perfume.name}</h3>
+                  <p className="text-gold-primary font-semibold">{perfume.price}</p>
+                  <Button
+                    className="w-full bg-transparent border border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-black transition-colors group-hover:glow"
+                    onClick={() => addItem({ id: perfume.id, name: perfume.name, price: perfume.price })}
+                  >
+                    Add to Cart
+                  </Button>
+                </CardFooter>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </main>
