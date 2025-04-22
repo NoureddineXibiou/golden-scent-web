@@ -9,11 +9,34 @@ import { Input } from './ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { useCart } from '@/contexts/CartContext';
 
+type Perfume = {
+  id: number;
+  name: string;
+  price: string;
+};
+
+const ALL_PERFUMES: Perfume[] = [
+  { id: 1, name: 'Amber Queen', price: '€68' },
+  { id: 2, name: 'Mystic Oud', price: '€75' },
+  { id: 3, name: 'Vanilla Luxe', price: '€70' },
+  { id: 4, name: 'Fleur de Coton', price: '€64' },
+  { id: 5, name: 'Rose Élégance', price: '€72' }
+  // Add more perfumes here if needed
+];
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
   const { items, removeItem, itemCount } = useCart();
+
+  // Filtering perfumes based on query
+  const matchingPerfumes = searchQuery.trim().length > 0
+    ? ALL_PERFUMES.filter(perfume =>
+        perfume.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : [];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,17 +116,58 @@ const Header = () => {
                 </PopoverTrigger>
                 <PopoverContent className="w-80 p-0" align="end">
                   <div className="p-4 space-y-4">
-                    <h2 className="text-lg font-playfair text-gold-primary text-center">Search Perfumes</h2>
-                    <form onSubmit={handleSearch} className="flex gap-2">
-                      <Input 
-                        type="search" 
-                        placeholder="Search perfumes..." 
-                        className="border-gold-primary/20 bg-background"
+                    <h2 className="text-lg font-playfair text-gold-primary text-center">
+                      Search Perfumes
+                    </h2>
+                    <form
+                      onSubmit={handleSearch}
+                      className="flex gap-2"
+                      autoComplete="off"
+                    >
+                      <Input
+                        type="search"
+                        placeholder="Search perfumes..."
+                        className="border-gold-primary/20 bg-background text-gold-primary placeholder:text-gold-primary/60"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        onFocus={() => setSearchFocused(true)}
+                        onBlur={() => setSearchFocused(false)}
                       />
-                      <Button type="submit" className="bg-gold-primary hover:bg-gold-primary/80">
-                        <Search className="h-4 w-4" />
+                      <Button
+                        type="submit"
+                        className="bg-gold-primary hover:bg-gold-primary/80"
+                        tabIndex={-1}
+                      >
+                        <Search className="h-4 w-4 text-black" />
                       </Button>
                     </form>
+                    {/* Show results below the input */}
+                    <AnimatePresence>
+                      {searchQuery && (
+                        <motion.ul
+                          initial={{ opacity: 0, y: -8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          className="mt-2 bg-background border border-gold-primary/30 rounded-lg max-h-56 overflow-auto shadow-lg divide-y divide-gold-primary/10"
+                        >
+                          {matchingPerfumes.length > 0 ? (
+                            matchingPerfumes.map(perfume => (
+                              <li
+                                key={perfume.id}
+                                className="flex items-center justify-between px-4 py-2 hover:bg-gold-primary/10 cursor-pointer transition-all"
+                              >
+                                <span className="font-medium text-gold-primary">{perfume.name}</span>
+                                <span className="text-sm text-muted-foreground">{perfume.price}</span>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="px-4 py-2 text-center text-gold-primary/70">
+                              No perfume found.
+                            </li>
+                          )}
+                        </motion.ul>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -171,3 +235,4 @@ const Header = () => {
 };
 
 export default Header;
+
