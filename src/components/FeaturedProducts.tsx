@@ -1,9 +1,9 @@
-
 import { Card, CardContent, CardFooter } from './ui/card';
 import { Button } from './ui/button';
 import { motion } from 'framer-motion';
 import { AspectRatio } from './ui/aspect-ratio';
 import { useCart } from '@/contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const products = [
   {
@@ -106,18 +106,17 @@ const products = [
 
 const FeaturedProducts = () => {
   const { addItem } = useCart();
+  const navigate = useNavigate();
 
-  const scrollToProducts = () => {
-    document.getElementById('featured-products')?.scrollIntoView({ 
-      behavior: 'smooth'
-    });
+  const handleTitleClick = () => {
+    navigate('/new-arrivals');
   };
 
   return (
     <section id="featured-products" className="py-20 px-4">
       <div className="container mx-auto">
         <h2 
-          onClick={scrollToProducts}
+          onClick={handleTitleClick}
           className="text-3xl md:text-4xl font-playfair text-center mb-12 gold-glow cursor-pointer hover:scale-105 transition-transform duration-300"
         >
           Featured Collections
