@@ -107,10 +107,19 @@ const products = [
 const FeaturedProducts = () => {
   const { addItem } = useCart();
 
+  const scrollToProducts = () => {
+    document.getElementById('featured-products')?.scrollIntoView({ 
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <section className="py-20 px-4">
+    <section id="featured-products" className="py-20 px-4">
       <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-playfair text-center mb-12 gold-glow">
+        <h2 
+          onClick={scrollToProducts}
+          className="text-3xl md:text-4xl font-playfair text-center mb-12 gold-glow cursor-pointer hover:scale-105 transition-transform duration-300"
+        >
           Featured Collections
         </h2>
         
